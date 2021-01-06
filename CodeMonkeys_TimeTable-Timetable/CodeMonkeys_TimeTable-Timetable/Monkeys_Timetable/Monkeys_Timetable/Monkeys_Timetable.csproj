@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D538091C-4B86-4322-9C22-76D78BF8FE98}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Monkeys_Timetable</RootNamespace>
+    <AssemblyName>Monkeys_Timetable</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>图标2.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssessForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssessForm.Designer.cs">
+      <DependentUpon>AssessForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Assessment.cs" />
+    <Compile Include="ConflictForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConflictForm.Designer.cs">
+      <DependentUpon>ConflictForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Conflicts.cs" />
+    <Compile Include="Conflict_Identification.cs" />
+    <Compile Include="DataManager.cs" />
+    <Compile Include="DrawStation.cs" />
+    <Compile Include="LinePlan.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LinePlan.Designer.cs">
+      <DependentUpon>LinePlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PaintForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PaintForm.Designer.cs">
+      <DependentUpon>PaintForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PaintTool.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegisterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegisterForm.Designer.cs">
+      <DependentUpon>RegisterForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="station.cs" />
+    <Compile Include="Train.cs" />
+    <EmbeddedResource Include="AssessForm.resx">
+      <DependentUpon>AssessForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConflictForm.resx">
+      <DependentUpon>ConflictForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LinePlan.resx">
+      <DependentUpon>LinePlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PaintForm.resx">
+      <DependentUpon>PaintForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="RegisterForm.resx">
+      <DependentUpon>RegisterForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="沪宁时刻图.csv" />
+    <None Include="沪宁车站信息.csv" />
+    <None Include="沪宁车站画图信息.csv" />
+    <None Include="车站列车安全间隔.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="图标2.ico" />
+    <Content Include="注册用户表.mdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
