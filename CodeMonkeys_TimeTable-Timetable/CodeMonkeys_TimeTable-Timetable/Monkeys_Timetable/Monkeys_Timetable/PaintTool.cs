@@ -7,7 +7,10 @@ using System.Linq;
 
 namespace Monkeys_Timetable
 {
-    public class PaintTool//封装绘制运行图所需的方法
+    /// <summary>
+    /// 封装绘制运行图所需的方法
+    /// </summary>
+    public class PaintTool
     {
         Font font = new Font("宋体", 8f);
         Brush brush = new SolidBrush(Color.Green);
@@ -17,7 +20,10 @@ namespace Monkeys_Timetable
         List<string> Str = new List<string>();
         List<double> Mile = new List<double>();
         public Dictionary<int, List<string>> str1 = new Dictionary<int, List<string>>();
-        public Dictionary<int, List<string>> str2 = new Dictionary<int, List<string>>();//无重复的支线车站列表
+        /// <summary>
+        /// 无重复的支线车站列表
+        /// </summary>
+        public Dictionary<int, List<string>> str2 = new Dictionary<int, List<string>>();
         public Dictionary<int, List<double>> Mile1 = new Dictionary<int, List<double>>();
         public int MainLine = 0;
         public List<float> TimeX = new List<float>();
@@ -30,13 +36,18 @@ namespace Monkeys_Timetable
             public double UpY;
             public double DownY;
         }
-        public Dictionary<string, BranchY> BranchYinf = new Dictionary<string, BranchY>();//存放跨线列车连接线坐标信息
+        /// <summary>
+        /// 存放跨线列车连接线坐标信息
+        /// </summary>
+        public Dictionary<string, BranchY> BranchYinf = new Dictionary<string, BranchY>();
         public Dictionary<int, List<float>> staY2 = new Dictionary<int, List<float>>();
         /// <summary>
         /// 存放冲突信息的DataTable
         /// </summary>
         DataTable ct = new DataTable();
-
+        /// <summary>
+        /// 存放上下边界坐标信息
+        /// </summary>
         public struct Border
         {
             public double up;
@@ -45,7 +56,17 @@ namespace Monkeys_Timetable
         Border border1 = new Border();
         public List<Border> border2 = new List<Border>();
 
-
+        /// <summary>
+        /// 运行图基本框架
+        /// </summary>
+        /// <param name="WinWidth">运行图窗口宽度</param>
+        /// <param name="WinUp">运行图上边界坐标</param>
+        /// <param name="WinDown">运行图下边界坐标</param>
+        /// <param name="TotalMile">支线总里程</param>
+        /// <param name="StationMile">车站里程列表</param>
+        /// <param name="gs">画图区</param>
+        /// <param name="StationName">车站名列表</param>
+        /// <param name="indd">运行图支线编号</param>
         public void TimetableFrame(double WinWidth, double WinUp, double WinDown, double TotalMile, List<double> StationMile, Graphics gs, List<string> StationName, int indd)
         {
             double WinHeight = WinDown - WinUp;
@@ -96,8 +117,7 @@ namespace Monkeys_Timetable
                             gs.DrawString(Convert.ToString(Hour), font, brush, p1.X, p1.Y - 15, SF1);//在这添加插入时间语句
                             Hour++;
                         }
-                        //gs.DrawString(Convert.ToString(Hour),font,brush,p2.X,p2.Y+5,SF1);//在这添加插入时间语句
-                        //Hour++;
+
                     }
                     else if (j % 60 != 0 && j % 30 == 0)
                     {
@@ -149,6 +169,13 @@ namespace Monkeys_Timetable
 
             staY = new List<float>();
         }//运行图框架图
+        /// <summary>
+        /// 列车运行线绘制
+        /// </summary>
+        /// <param name="gs">画图区</param>
+        /// <param name="TrainList">列车列表</param>
+        /// <param name="StaionList">车站列表</param>
+        /// <param name="k">支线编号</param>
         public void TrainLine(Graphics gs, List<Train> TrainList, List<string> StaionList, int k)
         {
             Pen pp = new Pen(Color.Red, (float)1.2);
@@ -432,10 +459,10 @@ namespace Monkeys_Timetable
         /// <summary>
         /// 将车站画图信息拆分成主线和支线几段
         /// </summary>
-        /// <param name="StationStr"></param>
-        /// <param name="StationMile"></param>
-        /// <param name="Width"></param>
-        /// <param name="Height"></param>
+        /// <param name="StationStr">车站名列表</param>
+        /// <param name="StationMile">车站里程列表</param>
+        /// <param name="Width">画幅宽度</param>
+        /// <param name="Height">画幅高度</param>
         public void Branch(List<string> StationStr, List<double> StationMile, double Width, double Height)
         {
             //float divi = 5;
@@ -476,7 +503,7 @@ namespace Monkeys_Timetable
                     MainLine = ke;
                     c = str1[ke].Count;
                 }
-            }////找出站数最多的作为主线，得出主线的号
+            }//找出站数最多的作为主线，得出主线的号
             double all = 0;
             for (int l = 1; l <= k; l++)
             {
@@ -503,9 +530,9 @@ namespace Monkeys_Timetable
         /// <summary>
         /// 找出运行图中的支点车站在运行图中的坐标关系,放入BranchYinf中
         /// </summary>
-        /// <param name="StationStr"></param>
-        /// <param name="staY2"></param>
-        /// <param name="str1"></param>
+        /// <param name="StationStr">车站名列表</param>
+        /// <param name="staY2">分好支线的车站纵坐标字典</param>
+        /// <param name="str1">分好支线的车站名字典</param>
         public void BranchXY(List<string> StationStr, Dictionary<int, List<float>> staY2, Dictionary<int, List<string>> str1)
         {
             List<string> RepititiveStation = new List<string>();

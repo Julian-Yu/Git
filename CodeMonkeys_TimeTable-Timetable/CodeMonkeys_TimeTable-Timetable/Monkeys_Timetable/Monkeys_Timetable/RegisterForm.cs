@@ -105,5 +105,10 @@ namespace Monkeys_Timetable
             con.Close();
 
         }
+
+        private void RegisterForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

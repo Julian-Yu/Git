@@ -25,5 +25,10 @@ namespace Monkeys_Timetable
         {
 
         }
+
+        private void ConflictForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

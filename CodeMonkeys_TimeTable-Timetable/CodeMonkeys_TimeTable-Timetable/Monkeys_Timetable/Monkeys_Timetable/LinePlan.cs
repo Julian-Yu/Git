@@ -176,10 +176,6 @@ namespace Monkeys_Timetable
                 {
                     g.DrawEllipse(pen, curX - (float)2.5, Up - (float)2.5, 5, 5);
                     g.DrawEllipse(pen, curX - 5, Up - 5, 10, 10);//画车站
-                    if (i != 0)
-                    {
-                        //g.DrawLine(pen, pre_curX + 5, Up, curX - 5, Up);
-                    }
                     if (UpDown)
                     {
                         g.DrawString(StaLists[i][j], font, brush, curX, curY + 15, SF);
@@ -318,19 +314,7 @@ namespace Monkeys_Timetable
                         }
                     }
                 }
-                //Pen pen1 = new Pen(Color.Black);
-                //pen1.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-                //pen1.DashPattern = new float[] { 5, 5 };
-                //for (int i = 1; i < DownStaLists.Count; i++)
-                //{
-                //    for(int j = 0; j < stas.Count() - 1; j++)
-                //    {
-                //        if((DownStaLists[i].Contains(stas[j]) && (DownStaLists[i + 1].Contains(stas[j + 1]))))
-                //        {
-                //            g.DrawLine(pen1, StaX[i - 1][stas[j]], curY, StaX[i][stas[j + 1]], curY);
-                //        }
-                //    }
-                //}
+                
                 curY += 10;
             }
         }

@@ -766,5 +766,10 @@ namespace Monkeys_Timetable
 
             UpDownIndex.DataSource = Information;
         }
+
+        private void AssessForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
