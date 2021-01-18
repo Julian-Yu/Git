@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Monkeys_Timetable
@@ -14,6 +11,7 @@ namespace Monkeys_Timetable
     /// </summary>
     public partial class LinePlan : Form
     {
+        PaintTool pt = new PaintTool();
         Graphics g;
         /// <summary>
         /// DataManager对象，用以读取与生成开行方案相关的数据
@@ -34,7 +32,7 @@ namespace Monkeys_Timetable
         {
             get
             {
-                if(m_StaX == null)
+                if (m_StaX == null)
                 {
                     m_StaX = new List<Dictionary<string, float>>();
                 }
@@ -47,6 +45,7 @@ namespace Monkeys_Timetable
         }
         Bitmap bmp = new Bitmap(2480, 1300);
         Pen pen = new Pen(Color.Black);
+        Pen pen2 = new Pen(Color.Black);
         SolidBrush brush = new SolidBrush(Color.Black);
         Font font = new Font("宋体", 8f);
         float curY;
@@ -71,17 +70,17 @@ namespace Monkeys_Timetable
         {
             UpStaLists = new Dictionary<int, List<string>>();
             int m = 1;
-            for(int i = DownStaLists.Keys.Max(); i >= 1; i--)
+            for (int i = DownStaLists.Keys.Max(); i >= 1; i--)
             {
                 UpStaLists.Add(m, DownStaLists[i]);
                 m++;
             }
-            for(int i = 1; i < UpStaLists.Count + 1; i++)
+            for (int i = 1; i < UpStaLists.Count + 1; i++)
             {
                 UpStaLists[i].Reverse();
-            }       
+            }
             DrawFrame(pictureBox1.Width, pictureBox1.Height, g, UpStaLists);
-            DrawLine(g, UpPlanDic,UpStaLists,"up");
+            DrawLine(g, UpPlanDic, UpStaLists, "up");
             for (int i = 1; i < UpStaLists.Count + 1; i++)
             {
                 UpStaLists[i].Reverse();
@@ -90,7 +89,7 @@ namespace Monkeys_Timetable
         public void DrawDownPlan()
         {
             DrawFrame(pictureBox1.Width, pictureBox1.Height, g, DownStaLists);
-            DrawLine(g, DownPlanDic,DownStaLists,"down");
+            DrawLine(g, DownPlanDic, DownStaLists, "down");
         }
         /// <summary>
         /// 生成列车开行方案，并存入开行方案字典和DataTable
@@ -146,89 +145,101 @@ namespace Monkeys_Timetable
                 }
             }
         }
-        public void DrawFrame(float Width,float Height,Graphics g, Dictionary<int, List<String>> StaLists)
+        public void DrawFrame(float Width, float Height, Graphics g, Dictionary<int, List<String>> StaLists)
         {
-            SF.Alignment = StringAlignment.Center;       
+            SF.Alignment = StringAlignment.Center;
             float Left = 30;
             float Right = 5;
             float Up = 30;
-            float Down = 5;
             int totalSta = 0;
-            for(int i = 1; i < StaLists.Count + 1; i++)
+            for (int i = 1; i < StaLists.Count + 1; i++)
             {
-                for(int j = 0; j < StaLists[i].Count; j++)
+                for (int j = 0; j < StaLists[i].Count; j++)
                 {
                     totalSta += 1;
                 }
             }
             float gapBetweenSta = (Width - Left - Right) / ((float)totalSta + (float)(StaLists.Count - 1));
+            List<int> blank_index = new List<int>();
             float gapBetweenSec = gapBetweenSta;
             curX = 20;
             curY = Up;
             bool UpDown = true;
-            g.DrawString("数量", font, brush, curX-20, curY-5);
+            g.DrawString("数量", font, brush, curX - 20, curY - 5);
             curX = Left;
             for (int i = 1; i < StaLists.Count + 1; i++)
             {
                 Dictionary<string, float> LocDic = new Dictionary<string, float>();
                 StaX.Add(LocDic);
-                UpDown = true;              
+                UpDown = true;
                 for (int j = 0; j < StaLists[i].Count; j++)
                 {
-                    g.DrawEllipse(pen, curX-(float)2.5, Up-(float)2.5, 5, 5);
-                    g.DrawEllipse(pen, curX-5, Up-5, 10, 10);
+                    g.DrawEllipse(pen, curX - (float)2.5, Up - (float)2.5, 5, 5);
+                    g.DrawEllipse(pen, curX - 5, Up - 5, 10, 10);//画车站
+                    if (i != 0)
+                    {
+                        //g.DrawLine(pen, pre_curX + 5, Up, curX - 5, Up);
+                    }
                     if (UpDown)
                     {
-                        g.DrawString(StaLists[i][j], font, brush, curX, curY + 15,SF);
+                        g.DrawString(StaLists[i][j], font, brush, curX, curY + 15, SF);
                         StaX[i - 1].Add(StaLists[i][j], curX);
                     }
                     if (!UpDown)
                     {
-                        g.DrawString(StaLists[i][j], font, brush, curX, curY - 20,SF);
+                        g.DrawString(StaLists[i][j], font, brush, curX, curY - 20, SF);
                         StaX[i - 1].Add(StaLists[i][j], curX);
-                    }
+                    }//画车站名
                     UpDown = !UpDown;
                     curX += gapBetweenSta;
+
                 }
-                curX += gapBetweenSec;            
+                curX += gapBetweenSec;
+            }
+            for (int i = 0; i < StaX.Count; i++)
+            {
+                for (int j = 1; j < StaX[i].Count; j++)
+                {
+                    g.DrawLine(pen, StaX[i][StaLists[i + 1][j - 1]] + 5, Up, StaX[i][StaLists[i + 1][j]] - 5, Up);
+                }
             }
             curY += 40;
             this.pictureBox1.BackgroundImage = bmp;
         }
-        public void DrawLine(Graphics g, Dictionary<string, int> PlanDic, Dictionary<int, List<String>> StaLists,String upOrDown)
+        public void DrawLine(Graphics g, Dictionary<string, int> PlanDic, Dictionary<int, List<String>> StaLists, String upOrDown)
         {
-            foreach(KeyValuePair<string,int> Line in PlanDic)
+            foreach (KeyValuePair<string, int> Line in PlanDic)
             {
                 string[] stas = Line.Key.Split(',');
                 if (upOrDown == "up")
                 {
                     stas.Reverse();
                 }
-                g.DrawString(Line.Value.ToString(), font, brush, 10, curY-4,SF);
+                g.DrawString(Line.Value.ToString(), font, brush, 10, curY - 4, SF);
                 for (int i = 0; i < stas.Count(); i++)
                 {
                     for (int j = 1; j <= StaLists.Count - 1; j++)
                     {
                         if (StaLists[j].Contains(stas[i]) && (StaLists[j + 1].Contains(stas[i])))
                         {
-                            if ((StaLists[j].IndexOf(stas[i]) == StaLists[j].Count - 1)&&(i == 0))
+                            if ((StaLists[j].IndexOf(stas[i]) == StaLists[j].Count - 1) && (i == 0))
                             {
-                                g.FillEllipse(brush, StaX[j][stas[i]]-(float)3.5, curY-(float)3.5, 7, 7);
+                                g.FillEllipse(brush, StaX[j][stas[i]] - (float)3.5, curY - (float)3.5, 7, 7);
                             }
-                            if(StaLists[j + 1].IndexOf(stas[i]) == 0)
+                            if (StaLists[j + 1].IndexOf(stas[i]) == 0)
                             {
-                                if (i == stas.Count() -1)
+                                if (i == stas.Count() - 1)
                                 {
                                     g.FillEllipse(brush, StaX[j - 1][stas[i]] - (float)3.5, curY - (float)3.5, 7, 7);
                                 }
-                                else if((i != stas.Count() - 1)&&(!StaLists[j].Contains(stas[i+1])))
+                                else if ((i != stas.Count() - 1) && (!StaLists[j].Contains(stas[i + 1])))
                                 {
                                     g.FillEllipse(brush, StaX[j - 1][stas[i]] - (float)3.5, curY - (float)3.5, 7, 7);
                                     g.FillEllipse(brush, StaX[j][stas[i]] - (float)3.5, curY - (float)3.5, 7, 7);
                                 }
                             }
                         }
-                        else if(StaLists[j].Contains(stas[i]) && (!StaLists[j + 1].Contains(stas[i])))
+                        else if (StaLists[j].Contains(stas[i]) && (!StaLists[j + 1].Contains(stas[i])))
                         {
                             g.FillEllipse(brush, StaX[j - 1][stas[i]] - (float)3.5, curY - (float)3.5, 7, 7);
                         }
@@ -240,17 +251,17 @@ namespace Monkeys_Timetable
                 }
                 for (int i = 1; i < StaLists.Count; i++)
                 {
-                    for(int j = 0; j < StaLists[i].Count; j++)
+                    for (int j = 0; j < StaLists[i].Count; j++)
                     {
-                        if(StaLists[i + 1].Contains(StaLists[i][j]))
+                        if (StaLists[i + 1].Contains(StaLists[i][j]))
                         {
-                            for(int m = 0; m < stas.Count(); m++)
+                            for (int m = 0; m < stas.Count(); m++)
                             {
-                                if (StaLists[i + 1].Contains(stas[m])&&((StaLists[i].Contains(stas[0]))))
+                                if (StaLists[i + 1].Contains(stas[m]) && ((StaLists[i].Contains(stas[0]))))
                                 {
-                                    g.DrawLine(pen, StaX[i][StaLists[i][j]], curY , StaX[i][stas[m]], curY );                                    
+                                    g.DrawLine(pen, StaX[i][StaLists[i][j]], curY, StaX[i][stas[m]], curY);
                                 }
-                            }                           
+                            }
                         }
                     }
                 }
@@ -262,9 +273,9 @@ namespace Monkeys_Timetable
                         {
                             for (int m = stas.Count() - 1; m >= 0; m--)
                             {
-                                if ((StaLists[i].Contains(stas[m]))&& StaLists[i + 1].Contains(stas[stas.Count()-1]))
+                                if ((StaLists[i].Contains(stas[m])) && StaLists[i + 1].Contains(stas[stas.Count() - 1]))
                                 {
-                                    g.DrawLine(pen, StaX[i - 1][stas[m]], curY , StaX[i - 1][StaLists[i][j]], curY );
+                                    g.DrawLine(pen, StaX[i - 1][stas[m]], curY, StaX[i - 1][StaLists[i][j]], curY);
                                     break;
                                 }
                             }
@@ -279,8 +290,8 @@ namespace Monkeys_Timetable
                         {
                             if (StaLists[i].Contains(stas[0]))
                             {
-                                g.DrawLine(pen, StaX[i - 1][stas[0]], curY , StaX[i - 1][StaLists[i][j]], curY );
-                            }       
+                                g.DrawLine(pen, StaX[i - 1][stas[0]], curY, StaX[i - 1][StaLists[i][j]], curY);
+                            }
                         }
                     }
                 }
@@ -292,7 +303,7 @@ namespace Monkeys_Timetable
                         {
                             if (StaLists[i + 1].Contains(stas[stas.Count() - 1]))
                             {
-                                g.DrawLine(pen, StaX[i][StaLists[i][j]], curY , StaX[i][stas[stas.Count() - 1]], curY );
+                                g.DrawLine(pen, StaX[i][StaLists[i][j]], curY, StaX[i][stas[stas.Count() - 1]], curY);
                             }
                         }
                     }
@@ -303,7 +314,7 @@ namespace Monkeys_Timetable
                     {
                         if ((StaLists[i].Contains(stas[j]) && (StaLists[i].Contains(stas[j + 1]))))
                         {
-                            g.DrawLine(pen, StaX[i - 1][stas[j]], curY , StaX[i - 1][stas[j + 1]], curY );
+                            g.DrawLine(pen, StaX[i - 1][stas[j]], curY, StaX[i - 1][stas[j + 1]], curY);
                         }
                     }
                 }

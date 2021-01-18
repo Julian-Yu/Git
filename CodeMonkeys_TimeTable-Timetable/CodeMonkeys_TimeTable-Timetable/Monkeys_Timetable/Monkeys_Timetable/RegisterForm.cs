@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
 using System.Data.OleDb;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Monkeys_Timetable
 {
@@ -56,15 +50,15 @@ namespace Monkeys_Timetable
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text.Trim()=="")
+            if (textBox1.Text.Trim() == "")
             {
                 MessageBox.Show("用户名不能为空！");
             }
-            if(textBox2.Text.Trim ()=="")
+            if (textBox2.Text.Trim() == "")
             {
                 MessageBox.Show("密码不能为空！");
             }
-            if(System.Text.RegularExpressions.Regex.IsMatch(textBox2.Text, "[A-Z]")&&(System.Text.RegularExpressions.Regex.IsMatch(textBox2.Text, "[0-9]")) && (System.Text.RegularExpressions.Regex.IsMatch(textBox2.Text, "[a-z]")))
+            if (System.Text.RegularExpressions.Regex.IsMatch(textBox2.Text, "[A-Z]") && (System.Text.RegularExpressions.Regex.IsMatch(textBox2.Text, "[0-9]")) && (System.Text.RegularExpressions.Regex.IsMatch(textBox2.Text, "[a-z]")))
             {
                 SURE = 1;
             }
@@ -72,11 +66,11 @@ namespace Monkeys_Timetable
             {
                 MessageBox.Show("密码必须包含大小写字母和数字！");
             }
-            if(textBox3.Text.Trim()=="")
+            if (textBox3.Text.Trim() == "")
             {
                 MessageBox.Show("确认密码不能为空！");
             }
-            if(textBox2.Text!=textBox3.Text)
+            if (textBox2.Text != textBox3.Text)
             {
                 MessageBox.Show("密码与确认密码不相符！");
             }
@@ -84,7 +78,7 @@ namespace Monkeys_Timetable
             string Constr = "Provider=Microsoft.ace.OLEDB.12.0;Data Source=" + Application.StartupPath + Accessfilename;
             OleDbConnection con = new OleDbConnection(Constr);
             con.Open();
-            if((textBox1.Text!="")&&(textBox2.Text!="")&&(textBox3.Text!="")&&(textBox2.Text==textBox3.Text)&&(SURE==1))
+            if ((textBox1.Text != "") && (textBox2.Text != "") && (textBox3.Text != "") && (textBox2.Text == textBox3.Text) && (SURE == 1))
             {
                 string selectsql1 = "Select * from UsersDat where Users='" + textBox1.Text.ToString() + "'";
                 OleDbCommand odc3 = new OleDbCommand(selectsql1, con);
@@ -106,7 +100,7 @@ namespace Monkeys_Timetable
                     odc2.ExecuteNonQuery();
                     MessageBox.Show("注册成功，请前往登录界面登录！");
                     this.Close();
-                }                   
+                }
             }
             con.Close();
 

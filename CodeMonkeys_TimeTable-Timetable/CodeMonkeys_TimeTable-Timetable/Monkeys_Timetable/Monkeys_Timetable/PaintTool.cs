@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 
 namespace Monkeys_Timetable
 {
     public class PaintTool//封装绘制运行图所需的方法
     {
-        Font font=new Font("宋体",8f);
-        Brush brush=new SolidBrush(Color.Green);
+        Font font = new Font("宋体", 8f);
+        Brush brush = new SolidBrush(Color.Green);
         StringFormat SF = new StringFormat();
         StringFormat SF1 = new StringFormat();
 
@@ -34,7 +30,7 @@ namespace Monkeys_Timetable
             public double UpY;
             public double DownY;
         }
-        public Dictionary<string,BranchY> BranchYinf=new Dictionary<string, BranchY>();//存放跨线列车连接线坐标信息
+        public Dictionary<string, BranchY> BranchYinf = new Dictionary<string, BranchY>();//存放跨线列车连接线坐标信息
         public Dictionary<int, List<float>> staY2 = new Dictionary<int, List<float>>();
         /// <summary>
         /// 存放冲突信息的DataTable
@@ -48,9 +44,9 @@ namespace Monkeys_Timetable
         }
         Border border1 = new Border();
         public List<Border> border2 = new List<Border>();
-         
 
-        public void TimetableFrame(double WinWidth, double WinUp,double WinDown, double TotalMile, List<double> StationMile, Graphics gs,List<string> StationName,int indd)
+
+        public void TimetableFrame(double WinWidth, double WinUp, double WinDown, double TotalMile, List<double> StationMile, Graphics gs, List<string> StationName, int indd)
         {
             double WinHeight = WinDown - WinUp;
             SF.Alignment = StringAlignment.Far;
@@ -69,7 +65,7 @@ namespace Monkeys_Timetable
             double Width = WinWidth - (Left + Right);
             double Height = WinHeight - (Up + Down);
             p1.X = Left;
-            p1.Y = (float)(Up+WinUp);
+            p1.Y = (float)(Up + WinUp);
             p2.X = Left;
             int a = StationMile.Count;
             p2.Y = (float)(WinUp + Up + Height * StationMile[a - 1] / TotalMile);
@@ -79,7 +75,7 @@ namespace Monkeys_Timetable
             int Hour = 0;
             for (int j = 0; j <= 1440; j++)
             {
-                if(j%10==0)
+                if (j % 10 == 0)
                 {
                     if (j % 60 == 0)
                     {
@@ -131,7 +127,7 @@ namespace Monkeys_Timetable
                     p2.X = (float)(p2.X + add);
                 }
             }
-            xx = p1.X-add;
+            xx = p1.X - add;
             ////////////////////////////////////////////////以上是时间线
             pp1 = new Pen(Color.Green, 2);
             p1.X = Left;
@@ -142,18 +138,18 @@ namespace Monkeys_Timetable
                 p1.Y = (float)(WinUp + Up + Height * StationMile[k] / TotalMile);
                 p2.Y = (float)(WinUp + Up + Height * StationMile[k] / TotalMile);
                 gs.DrawLine(pp1, p1, p2);
-                gs.DrawString(StationName[k], font, brush, p1.X-5, p1.Y-5,SF);//在这插入车站标签语句
+                gs.DrawString(StationName[k], font, brush, p1.X - 5, p1.Y - 5, SF);//在这插入车站标签语句
                 staY.Add(p1.Y);
             }
-            List<float> ff=new List<float>();
-            if (!staY2.TryGetValue(indd,out ff))
+            List<float> ff = new List<float>();
+            if (!staY2.TryGetValue(indd, out ff))
             {
                 staY2.Add(indd, staY);
             }
-            
+
             staY = new List<float>();
         }//运行图框架图
-        public void TrainLine(Graphics gs,List<Train> TrainList,List<string> StaionList,int k)
+        public void TrainLine(Graphics gs, List<Train> TrainList, List<string> StaionList, int k)
         {
             Pen pp = new Pen(Color.Red, (float)1.2);
             PointF p1 = new PointF();
@@ -161,10 +157,10 @@ namespace Monkeys_Timetable
             foreach (Train train in TrainList)
             {
                 int a = train.staList.Count;
-                for (int i=0;i<a-1;i++)
+                for (int i = 0; i < a - 1; i++)
                 {
-                    if (StaionList.IndexOf(train.staList[i]) != -1&& StaionList.IndexOf(train.staList[i + 1]) != -1)
-                    {                    
+                    if (StaionList.IndexOf(train.staList[i]) != -1 && StaionList.IndexOf(train.staList[i + 1]) != -1)
+                    {
                         int index1 = StaionList.IndexOf(train.staList[i]);
                         int index2 = StaionList.IndexOf(train.staList[i + 1]);
                         int i1 = train.MinuteDic[train.staList[i]][1];
@@ -172,14 +168,14 @@ namespace Monkeys_Timetable
                         p1.X = TimeX[i1];
                         p2.X = TimeX[i2];
                         p1.Y = staY2[k][index1];
-                        p2.Y = staY2[k][index2];                       
+                        p2.Y = staY2[k][index2];
                         gs.DrawLine(pp, p1, p2);
-                        
+
                     }
                 }
                 for (int i = 1; i < a - 1; i++)
                 {
-                    if (StaionList.IndexOf(train.staList[i]) != -1 && train.staList[i] != StaionList[0] && train.staList[i] != StaionList[StaionList.Count - 1]) 
+                    if (StaionList.IndexOf(train.staList[i]) != -1 && train.staList[i] != StaionList[0] && train.staList[i] != StaionList[StaionList.Count - 1])
                     {
                         int index1 = StaionList.IndexOf(train.staList[i]);
                         int i1 = train.MinuteDic[train.staList[i]][0];
@@ -189,16 +185,16 @@ namespace Monkeys_Timetable
                         p1.Y = staY2[k][index1];
                         p2.Y = staY2[k][index1];
                         gs.DrawLine(pp, p1, p2);
-                    }                   
+                    }
                 }
             }
         }//运行线铺画方法
-         /// <summary>
-         ///存入各列车点位坐标
-         /// </summary>
-        public void GetTrainPoint(List<Train> TrainList,List<string> StationList,int k)
+        /// <summary>
+        ///存入各列车点位坐标
+        /// </summary>
+        public void GetTrainPoint(List<Train> TrainList, List<string> StationList, int k)
         {
-            foreach(Train train in TrainList)
+            foreach (Train train in TrainList)
             {
                 Dictionary<string, List<PointF>> PointDic = new Dictionary<string, List<PointF>>();
                 train.TrainPointList.Add(PointDic);
@@ -222,26 +218,26 @@ namespace Monkeys_Timetable
                         {
                             train.TrainPointList[k].Add(train.staList[i], pointList);
                         }
-                    }                        
+                    }
                 }
             }
         }
         /// <summary>
         /// 获取各冲突点在bmp的坐标
         /// </summary>
-        public void GetConflictPoint(List<Conflict> ConflictList,List<Train> TrainList)
+        public void GetConflictPoint(List<Conflict> ConflictList, List<Train> TrainList)
         {
-            foreach(Conflict conflict in ConflictList)
+            foreach (Conflict conflict in ConflictList)
             {
-                foreach(Train tra in TrainList)
+                foreach (Train tra in TrainList)
                 {
-                    if(conflict.FrontTrain == tra)
+                    if (conflict.FrontTrain == tra)
                     {
-                        if((conflict.ConflictType=="到通")|| (conflict.ConflictType == "通到") || (conflict.ConflictType == "到到") || (conflict.ConflictType == "通通"))
+                        if ((conflict.ConflictType == "到通") || (conflict.ConflictType == "通到") || (conflict.ConflictType == "到到") || (conflict.ConflictType == "通通"))
                         {
                             int i1 = tra.MinuteDic[conflict.ConflictSta][0];
                             PointF p = new PointF();
-                            p.X = TimeX[i1];                             
+                            p.X = TimeX[i1];
                             for (int i = 0; i < str1.Count; i++)
                             {
                                 if (str1[i + 1].Contains(conflict.ConflictSta))
@@ -274,11 +270,11 @@ namespace Monkeys_Timetable
         /// <summary>
         /// 在bmp中绘制上行列车间的冲突点
         /// </summary>
-        public void ConflictDrawUp(Graphics gs,DataTable ct,Dictionary<string,Train> TrainDic, List<string> StaionList)
+        public void ConflictDrawUp(Graphics gs, DataTable ct, Dictionary<string, Train> TrainDic, List<string> StaionList)
         {
             Pen pp = new Pen(Color.Black, 2);
             PointF p1 = new PointF();
-            for(int i = 0; i < ct.Rows.Count; i++)
+            for (int i = 0; i < ct.Rows.Count; i++)
             {
                 string No = ct.Rows[i]["前车"].ToString();
                 if (TrainDic[No].Dir == "up")
@@ -288,14 +284,14 @@ namespace Monkeys_Timetable
                     {
                         cPoint = TrainDic[ct.Rows[i]["前车"].ToString()].MinuteDic[ct.Rows[i]["车站"].ToString()][0];
                         p1.X = TimeX[cPoint];
-                        for(int j = 1; j < str1.Count + 1; j++)
+                        for (int j = 1; j < str1.Count + 1; j++)
                         {
                             if (str1[j].Contains(ct.Rows[i]["车站"].ToString()))
                             {
                                 p1.Y = staY2[j][str1[j].IndexOf(ct.Rows[i]["车站"].ToString())];
-                                gs.DrawEllipse(pp, p1.X-2, p1.Y-2, 5, 5);
+                                gs.DrawEllipse(pp, p1.X - 2, p1.Y - 2, 5, 5);
                             }
-                        }                        
+                        }
                     }
                     if ((ct.Rows[i]["冲突类型"].ToString() == "发通") || (ct.Rows[i]["冲突类型"].ToString() == "通发") || (ct.Rows[i]["冲突类型"].ToString() == "发发"))
                     {
@@ -306,12 +302,12 @@ namespace Monkeys_Timetable
                             if (str1[j].Contains(ct.Rows[i]["车站"].ToString()))
                             {
                                 p1.Y = staY2[j][str1[j].IndexOf(ct.Rows[i]["车站"].ToString())];
-                                gs.DrawEllipse(pp, p1.X-2, p1.Y-2, 5, 5);
+                                gs.DrawEllipse(pp, p1.X - 2, p1.Y - 2, 5, 5);
                             }
                         }
                     }
-                }                
-            }              
+                }
+            }
         }
         /// <summary>
         /// 在bmp中绘制下行列车间的冲突点
@@ -420,7 +416,7 @@ namespace Monkeys_Timetable
             if (h < Difference)
             {
                 return 0;
-            }                          
+            }
             return -1;
         }
         /// <summary>
@@ -472,7 +468,7 @@ namespace Monkeys_Timetable
                 Str = new List<string>();
                 Mile = new List<double>();
             }//将主线与支线分开
-            foreach(int ke in str1.Keys)
+            foreach (int ke in str1.Keys)
             {
                 int c = 0;
                 if (str1[ke].Count >= c)
@@ -527,8 +523,8 @@ namespace Monkeys_Timetable
                 int a = staY2.Count;
                 for (int b = 1; b + 1 <= a; b++)
                 {
-                    
-                    for(int c = 0;c < RepititiveStation.Count; c++)
+
+                    for (int c = 0; c < RepititiveStation.Count; c++)
                     {
                         int ind1 = 0;
                         int ind2 = 0;
@@ -538,78 +534,10 @@ namespace Monkeys_Timetable
                         Bran.UpY = staY2[b][ind1];
                         Bran.DownY = staY2[b + 1][ind2];
                         BranchYinf.Add(RepititiveStation[c], Bran);
-                    }///得出每个支点站在运行图上下两个的坐标
-                    
+                    }///得出每个支点站在运行图上下两个的坐标                   
                 }
-                
             }
             ///////////////////////////////////////////////以上为支线点的相关坐标信息
-        }
-
-        public int MainLineNum = 0;
-        int MainLineCount = 0;
-        PaintTool pt = new PaintTool();
-        /// <summary>
-        /// 找出线路中的主线，并得出主线的序号（站数最多的为主线）
-        /// </summary>
-        public void GetMainLine()
-        {
-            foreach (int l in str1.Keys)
-            {
-                if (pt.str1[l].Count > MainLineCount)
-                {
-                    MainLineNum = l;
-                    MainLineCount = str1[l].Count;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 画出线路间的连接线
-        /// </summary>
-        public void DrawConLine(Graphics gs, List<Train> TrainList)
-        {
-            DataManager dm = new DataManager();
-            BranchXY(dm.stationDrawStringList, staY2, str1);
-            GetBranchStation();
-            foreach (Train t in TrainList)
-            {
-                foreach (int k in t.BranchNum)
-                {
-                    if (t.BranchNum != null)
-                    {
-
-                    }
-                }
-                
-            }
-        }
-        /// <summary>
-        /// 获得支线车站字典，把主线删去，把支线中与主线连接的车站删去，放入str2中
-        /// </summary>
-        public void GetBranchStation()
-        {
-            GetMainLine();
-            foreach (int k2 in str1.Keys)
-            {
-                if (k2 != MainLineNum)
-                {
-                    str2.Add(k2, str1[k2]);
-                }
-            }//把支线放入支线字典
-          
-            foreach (int k3 in str2.Keys)
-            {
-                int ii = str2[k3].Count;
-                for (int jj = ii - 1; jj >= 0; jj--) 
-                {
-                    if (str1[MainLineNum].IndexOf(str2[k3][jj]) != -1)
-                    {
-                        str2[k3].Remove(str2[k3][jj]);
-                    }
-                }
-            }//把主线有的车站删去
-
         }
     }
 }

@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 
 namespace Monkeys_Timetable
 {
@@ -72,7 +66,7 @@ namespace Monkeys_Timetable
                 m_ConflictType = value;
             }
         }
-        private String m_ConflictSta; 
+        private String m_ConflictSta;
         /// <summary>
         /// 车站到发间隔冲突所在车站
         /// </summary>

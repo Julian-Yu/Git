@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace Monkeys_Timetable
@@ -9,7 +6,7 @@ namespace Monkeys_Timetable
     /// <summary>
     ///存入各列车的到发时刻及停站信息
     /// </summary>
-    public class Train 
+    public class Train
     {
         /// <summary>
         ///判断是否初次生成trainDic
@@ -37,7 +34,7 @@ namespace Monkeys_Timetable
         /// <summary>
         ///始发站
         /// </summary>
-        private string x_OriSta; 
+        private string x_OriSta;
         public string OriSta
         {
             get
@@ -52,7 +49,7 @@ namespace Monkeys_Timetable
         /// <summary>
         ///终到站
         /// </summary>
-        private string x_DesSta; 
+        private string x_DesSta;
         public string DesSta
         {
             get
@@ -178,7 +175,7 @@ namespace Monkeys_Timetable
         {
             get
             {
-                if(x_TrainPointList == null)
+                if (x_TrainPointList == null)
                 {
                     x_TrainPointList = new List<Dictionary<string, List<PointF>>>();
                 }
@@ -196,7 +193,7 @@ namespace Monkeys_Timetable
         /// 列车在多个支线则把支线号存在数组中
         /// 支线号在读取车站画图信息的字典中读得
         /// </summary>
-        public List<int> BranchNum;
+        //public List<int> BranchNum;
 
     }
 }

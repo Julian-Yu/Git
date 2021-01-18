@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Monkeys_Timetable
 {
@@ -145,7 +144,7 @@ namespace Monkeys_Timetable
             double DownTravelSpeed = 60 * DownSumMile / DownSumTravelTime;//计算下行列车的旅行速度
             DownTravelSpeed = Math.Round(DownTravelSpeed, 2);
             UpDownTravelSpeed.Add(DownTravelSpeed);
-            double SumTravelSpeed= 60 * SumMile / SumTravelTime;//计算上下行所有列车的平均旅行速度
+            double SumTravelSpeed = 60 * SumMile / SumTravelTime;//计算上下行所有列车的平均旅行速度
             SumTravelSpeed = Math.Round(SumTravelSpeed, 2);
             UpDownTravelSpeed.Add(SumTravelSpeed);
 
@@ -251,17 +250,17 @@ namespace Monkeys_Timetable
             List<double> TechnicalSpeed = new List<double>();
             foreach (Train aTrain in dm.TrainList)
             {
-                int stationNum = aTrain.staList.Count-1;
+                int stationNum = aTrain.staList.Count - 1;
                 double aTime = 0;
                 for (int i = 0; i < stationNum; i++)
                 {
-                List<string> staDicValue1 = new List<string>();
-                staDicValue1 = aTrain.staTimeDic[aTrain.staList[i]];//出发站的信息列表
-                double aTime1 = GetMinute(staDicValue1[1]);//出发站的出发时间
-                List<string> staDicValue2 = new List<string>();
-                staDicValue2 = aTrain.staTimeDic[aTrain.staList[i+1]];//到达站的信息列表
-                double aTime2 = GetMinute(staDicValue2[0]);//到达站的到达时间
-                aTime = aTime + aTime2 - aTime1;
+                    List<string> staDicValue1 = new List<string>();
+                    staDicValue1 = aTrain.staTimeDic[aTrain.staList[i]];//出发站的信息列表
+                    double aTime1 = GetMinute(staDicValue1[1]);//出发站的出发时间
+                    List<string> staDicValue2 = new List<string>();
+                    staDicValue2 = aTrain.staTimeDic[aTrain.staList[i + 1]];//到达站的信息列表
+                    double aTime2 = GetMinute(staDicValue2[0]);//到达站的到达时间
+                    aTime = aTime + aTime2 - aTime1;
                 }
                 List<string> staDicValue3 = new List<string>();
                 staDicValue3 = aTrain.staTimeDic[aTrain.staList[aTrain.staList.Count - 1]];//终到站的信息列表
@@ -339,13 +338,13 @@ namespace Monkeys_Timetable
                     {
                         continue;
                     }
-                        
+
                     List<string> aList1 = aTrain.staTimeDic[sta];
                     int aHour1 = GetHour(aList1[0]);//出发时间
                     int aHour2 = GetHour(aList1[1]);//到达时间
                     for (int i = 0; i < 6; i++)
                     {
-                         if (aHour1 == 0)//始发站
+                        if (aHour1 == 0)//始发站
                         {
                             if (aHour2 >= (3 * i + 6) && aHour2 <= (3 * i + 9))
                             {
@@ -395,13 +394,13 @@ namespace Monkeys_Timetable
                         aCount += 1;
                     }
                 }
-                 ServiceFrequency.Add(aCount);
+                ServiceFrequency.Add(aCount);
             }
             return ServiceFrequency;
         }
 
         public List<int> AllDensity = new List<int>();//读取所有密度值，用来在Assessform中判断可视化条形图大小
-         /// <summary>
+        /// <summary>
         /// 计算所有站的列车密度
         /// </summary>
         public Dictionary<List<string>, List<int>> GetTrainDensity(DataManager dmm)//列车密度表_返回形式(<站名，站名> -> <上行列车数，下行列车数>)
@@ -419,8 +418,8 @@ namespace Monkeys_Timetable
             pt.Branch(dm.stationDrawStringList, staMile, pf.bmp.Width, pf.bmp.Height);
 
             Dictionary<List<string>, List<int>> TrainDensity = new Dictionary<List<string>, List<int>>();
-            
-            for(int jjj = 1;jjj < pt.str1.Count+1;jjj++)
+
+            for (int jjj = 1; jjj < pt.str1.Count + 1; jjj++)
             {
                 List<string> StationName = pt.str1[jjj];//读取各个线路的站名列表
                 for (int i = 0; i < StationName.Count - 1; i++)
@@ -462,6 +461,6 @@ namespace Monkeys_Timetable
             }
             return TrainDensity;
         }
-        
+
     }
 }

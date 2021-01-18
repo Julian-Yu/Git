@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Monkeys_Timetable
@@ -15,7 +13,7 @@ namespace Monkeys_Timetable
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PaintForm());
+            Application.Run(new LoginForm());
         }
     }
 }

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
 
 namespace Monkeys_Timetable
 {
@@ -65,7 +62,7 @@ namespace Monkeys_Timetable
         ///构造方法，初始化各对象
         /// </summary>
         public PaintForm()
-        {    
+        {
             pictureBox2 = new PictureBox();
             pictureBox2.Size = new Size(TD_Width, TD_Height);
             InitializeComponent();
@@ -89,7 +86,7 @@ namespace Monkeys_Timetable
         {
         }
         private void 读取文件ToolStripMenuItem_Click(object sender, EventArgs e)
-        {          
+        {
         }
         /// <summary>
         ///读取车站信息
@@ -105,7 +102,7 @@ namespace Monkeys_Timetable
                 staFileName = dialog.FileName;
                 dm.ReadStation(staFileName);
             }
-            if(dialog.FileName == null)
+            if (dialog.FileName == null)
             {
                 MessageBox.Show("未找到相关文件");
             }
@@ -130,7 +127,7 @@ namespace Monkeys_Timetable
             if (dialog.FileName == null)
             {
                 MessageBox.Show("未找到相关文件");
-            }            
+            }
         }
         /// <summary>
         ///读取列车间隔信息
@@ -165,7 +162,7 @@ namespace Monkeys_Timetable
         }
         private void panel3_Paint(object sender, PaintEventArgs e)
         {
-        }       
+        }
         private void 冲突检测ToolStripMenuItem_Click(object sender, EventArgs e)
         {
         }
@@ -199,7 +196,7 @@ namespace Monkeys_Timetable
             {
                 int ii = i + 1;
                 double total1 = pt.Mile1[ii].Last();
-                pt.TimetableFrame(this.bmp.Width, pt.border2[i].up,pt.border2[i].down, total1,pt.Mile1[ii], gs, pt.str1[ii],ii);
+                pt.TimetableFrame(this.bmp.Width, pt.border2[i].up, pt.border2[i].down, total1, pt.Mile1[ii], gs, pt.str1[ii], ii);
             }
 
             this.pictureBox2.BackgroundImage = bmp;
@@ -228,10 +225,10 @@ namespace Monkeys_Timetable
                 {
                     int ii = i + 1;
                     double total1 = pt.Mile1[ii].Last();
-                    pt.TimetableFrame(this.bmp.Width, pt.border2[i].up,pt.border2[i].down, total1,pt.Mile1[ii], gs, pt.str1[ii],ii);
-                    pt.TrainLine(gs, dm.upTrainList, pt.str1[ii],ii);
-                    pt.TrainLine(gs, dm.downTrainList, pt.str1[ii],ii);
-                }                
+                    pt.TimetableFrame(this.bmp.Width, pt.border2[i].up, pt.border2[i].down, total1, pt.Mile1[ii], gs, pt.str1[ii], ii);
+                    pt.TrainLine(gs, dm.upTrainList, pt.str1[ii], ii);
+                    pt.TrainLine(gs, dm.downTrainList, pt.str1[ii], ii);
+                }
             }
             else if (checkBox1.Checked == true && checkBox2.Checked == false)
             {
@@ -239,9 +236,9 @@ namespace Monkeys_Timetable
                 {
                     int ii = i + 1;
                     double total1 = pt.Mile1[ii].Last();
-                    pt.TimetableFrame(this.bmp.Width, pt.border2[i].up,pt.border2[i].down, total1,pt.Mile1[ii], gs, pt.str1[ii],ii);
+                    pt.TimetableFrame(this.bmp.Width, pt.border2[i].up, pt.border2[i].down, total1, pt.Mile1[ii], gs, pt.str1[ii], ii);
                     pt.TrainLine(gs, dm.upTrainList, pt.str1[ii], ii);
-                }                
+                }
             }
             else if (checkBox1.Checked == false && checkBox2.Checked == true)
             {
@@ -251,7 +248,7 @@ namespace Monkeys_Timetable
                     double total1 = pt.Mile1[ii].Last();
                     pt.TimetableFrame(this.bmp.Width, pt.border2[i].up, pt.border2[i].down, total1, pt.Mile1[ii], gs, pt.str1[ii], ii);
                     pt.TrainLine(gs, dm.downTrainList, pt.str1[ii], ii);
-                }          
+                }
             }
             else
             {
@@ -259,7 +256,7 @@ namespace Monkeys_Timetable
                 {
                     int ii = i + 1;
                     double total1 = pt.Mile1[ii].Last();
-                    pt.TimetableFrame(this.bmp.Width, pt.border2[i].up,pt.border2[i].down, total1,pt.Mile1[ii], gs, pt.str1[ii],ii);
+                    pt.TimetableFrame(this.bmp.Width, pt.border2[i].up, pt.border2[i].down, total1, pt.Mile1[ii], gs, pt.str1[ii], ii);
                 }
             }
             for (int i = 0; i < k; i++)
@@ -297,7 +294,7 @@ namespace Monkeys_Timetable
         }
         private void 检测ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Conflict_Identification ci = new Conflict_Identification(dm.stationList,dm.HeadwayDic,dm.TrainDic);
+            Conflict_Identification ci = new Conflict_Identification(dm.stationList, dm.HeadwayDic, dm.TrainDic);
             ci.Conflict_Judge();
             ConflictTable = ci.ToDataTable();
         }
@@ -316,12 +313,13 @@ namespace Monkeys_Timetable
             if (YesOrNo == false)
             {
                 YesOrNo = true;
+                ConflictShow();
             }
             else
             {
                 YesOrNo = false;
-            }
-            ConflictShow();     
+
+            }           
         }
         /// <summary>
         ///绘制冲突点
@@ -360,7 +358,7 @@ namespace Monkeys_Timetable
             af.Show();
         }
         private void PaintForm_Scroll(object sender, ScrollEventArgs e)
-        {         
+        {
         }
         private void 绘制运行图上行ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -400,7 +398,7 @@ namespace Monkeys_Timetable
                     {
                         for (int i = 0; i < ci.ConflictList.Count; i++)
                         {
-                            if(ci.ConflictList[i].FrontTrain.Dir == "up")
+                            if (ci.ConflictList[i].FrontTrain.Dir == "up")
                             {
                                 c = PaintTool.PointInCircle(e.Location, ci.ConflictList[i].ConflictLocation, 5f);
                                 if (c == 0)
@@ -416,17 +414,17 @@ namespace Monkeys_Timetable
                                         if (YesOrNo)
                                         {
                                             pt.ConflictDrawUp(gs, ConflictTable, dm.TrainDic, dm.stationStringList);
-                                        }                                       
+                                        }
                                     }
                                     ShowInfoTooltip(ci.ConflictList[i], e.Location);
                                     Pen SelectedPen = new Pen(Color.Blue, 2);
-                                    if(YesOrNo)
+                                    if (YesOrNo)
                                     {
                                         gs.DrawEllipse(SelectedPen, ci.ConflictList[i].ConflictLocation.X - 2, ci.ConflictList[i].ConflictLocation.Y - 2, 5, 5);
-                                    }                                    
+                                    }
                                     break;
                                 }
-                            }                            
+                            }
                         }
                     }
                     if (c != 0)
@@ -436,7 +434,7 @@ namespace Monkeys_Timetable
                         {
                             for (int s = 0; s < pt.str1.Count; s++)
                             {
-                                for(int m = 0; m < train.staList.Count - 1; m++)
+                                for (int m = 0; m < train.staList.Count - 1; m++)
                                 {
                                     if ((train.TrainPointList[s].ContainsKey(train.staList[m])) && (train.TrainPointList[s].ContainsKey(train.staList[m + 1])))
                                     {
@@ -446,7 +444,7 @@ namespace Monkeys_Timetable
                                             break;
                                         }
                                     }
-                                }                                                   
+                                }
                                 if (n == 0)
                                 {
                                     break;
@@ -467,7 +465,7 @@ namespace Monkeys_Timetable
                                         {
                                             pt.ConflictDrawUp(gs, ConflictTable, dm.TrainDic, dm.stationStringList);
                                         }
-                                        
+
                                     }
                                 }
                                 if (checkBox2.Checked)
@@ -480,7 +478,7 @@ namespace Monkeys_Timetable
                                         if (YesOrNo)
                                         {
                                             pt.ConflictDrawDown(gs, ConflictTable, dm.TrainDic, dm.stationStringList);
-                                        }                                        
+                                        }
                                     }
                                 }
                                 ShowInfoTooltip(train, e.Location);
@@ -493,9 +491,9 @@ namespace Monkeys_Timetable
                                         {
                                             break;
                                         }
-                                        if((train.staList.Contains(pt.str1[j][p]))&& (train.staList.Contains(pt.str1[j][p + 1])))
+                                        if ((train.staList.Contains(pt.str1[j][p])) && (train.staList.Contains(pt.str1[j][p + 1])))
                                         {
-                                            gs.DrawLine(SelectedPen, train.TrainPointList[j - 1][pt.str1[j][p]][0], train.TrainPointList[j - 1][pt.str1[j][p + 1]][1]);                                         
+                                            gs.DrawLine(SelectedPen, train.TrainPointList[j - 1][pt.str1[j][p]][0], train.TrainPointList[j - 1][pt.str1[j][p + 1]][1]);
                                         }
                                     }
                                     for (int p = 1; p < pt.str1[j].Count - 1; p++)
@@ -549,16 +547,16 @@ namespace Monkeys_Timetable
                                             pt.ConflictDrawDown(gs, ConflictTable, dm.TrainDic, dm.stationStringList);
                                         }
                                     }
-                                        
-                                    ShowInfoTooltip(ci.ConflictList[i],e.Location);
+
+                                    ShowInfoTooltip(ci.ConflictList[i], e.Location);
                                     Pen SelectedPen = new Pen(Color.Blue, 2);
                                     if (YesOrNo)
                                     {
                                         gs.DrawEllipse(SelectedPen, ci.ConflictList[i].ConflictLocation.X - 2, ci.ConflictList[i].ConflictLocation.Y - 2, 5, 5);
-                                    }                                    
+                                    }
                                     break;
                                 }
-                            }                           
+                            }
                         }
                     }
                     if (c != 0)
@@ -598,7 +596,7 @@ namespace Monkeys_Timetable
                                         if (YesOrNo)
                                         {
                                             pt.ConflictDrawUp(gs, ConflictTable, dm.TrainDic, dm.stationStringList);
-                                        }                                        
+                                        }
                                     }
                                 }
                                 if (checkBox2.Checked)
@@ -611,7 +609,7 @@ namespace Monkeys_Timetable
                                         if (YesOrNo)
                                         {
                                             pt.ConflictDrawDown(gs, ConflictTable, dm.TrainDic, dm.stationStringList);
-                                        }                                        
+                                        }
                                     }
                                 }
                                 ShowInfoTooltip(train, e.Location);
@@ -628,7 +626,7 @@ namespace Monkeys_Timetable
                                         {
                                             gs.DrawLine(SelectedPen, train.TrainPointList[j - 1][pt.str1[j][p]][1], train.TrainPointList[j - 1][pt.str1[j][p + 1]][0]);
                                         }
-                                        
+
                                     }
                                     for (int p = 1; p < pt.str1[j].Count - 1; p++)
                                     {
@@ -666,10 +664,10 @@ namespace Monkeys_Timetable
             dt.Columns.Add(train.TrainNo);
             dt.Columns.Add("车站");
             dt.Columns.Add("到达时刻");
-            dt.Columns.Add("出发时刻");           
+            dt.Columns.Add("出发时刻");
             for (int i = 0; i < train.staList.Count; i++)
             {
-                dt.Rows.Add("",train.staList[i], train.staTimeDic[train.staList[i]][0], train.staTimeDic[train.staList[i]][1]);
+                dt.Rows.Add("", train.staList[i], train.staTimeDic[train.staList[i]][0], train.staTimeDic[train.staList[i]][1]);
             }
             location.X += this.AutoScrollPosition.X;
             location.Y += this.AutoScrollPosition.Y;
@@ -684,7 +682,7 @@ namespace Monkeys_Timetable
         /// <summary>
         ///显示选中冲突信息
         /// </summary>
-        private void ShowInfoTooltip(Conflict con,Point location)
+        private void ShowInfoTooltip(Conflict con, Point location)
         {
             location.X += 15;
             location.Y += 15;
@@ -718,7 +716,7 @@ namespace Monkeys_Timetable
             {
                 staFileName = dialog.FileName;
             }
-            dm.ReadDrawStation(staFileName);           
+            dm.ReadDrawStation(staFileName);
         }
         private void 框架图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -975,6 +973,18 @@ namespace Monkeys_Timetable
         private void 开行方案ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             lp = new LinePlan(pt.str1);
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox4.Checked == true)
+            {
+                YesOrNo = true;
+            }
+            else
+            {
+                YesOrNo = false;
+            }
         }
     }
 }

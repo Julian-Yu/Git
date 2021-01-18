@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Monkeys_Timetable
@@ -137,19 +135,19 @@ namespace Monkeys_Timetable
         private void BtRunTrain_Click(object sender, EventArgs e)//Click事件为在左上Panel的控件中显示列车信息
         {
             String strtrain;
-            if (cbTrain.SelectedItem == null && cbTrain.Text =="")//判断是否有选择列车
+            if (cbTrain.SelectedItem == null && cbTrain.Text == "")//判断是否有选择列车
             {
                 MessageBox.Show("请先选择列车！");
             }
             else if (cbTrain.SelectedItem != null)//ComboBox中有选择对象
             {
                 strtrain = cbTrain.SelectedItem.ToString();
-                for (int i = 0; i < dm.TrainList.Count-1; i++)
+                for (int i = 0; i < dm.TrainList.Count - 1; i++)
                 {
-                    if(strtrain == dm.TrainList[i].TrainNo)//检索到对应的车次号
+                    if (strtrain == dm.TrainList[i].TrainNo)//检索到对应的车次号
                     {
-                        tbTravalSpeed.Text = ass.GetTravelSpeed(dm)[i].ToString()+"km/h";
-                        tbTechicalSpeed.Text = ass.GetTechnicalSpeed(dm)[i].ToString()+"km/h";
+                        tbTravalSpeed.Text = ass.GetTravelSpeed(dm)[i].ToString() + "km/h";
+                        tbTechicalSpeed.Text = ass.GetTechnicalSpeed(dm)[i].ToString() + "km/h";
                         tbSpeedIndex.Text = ass.GetSpeedIndex(dm)[i].ToString();
                         tbTrainServe.Text = ass.GetServiceFrequency(dm)[i].ToString();
                     }
@@ -210,7 +208,7 @@ namespace Monkeys_Timetable
 
             cbStation = new ComboBox();
             cbStation.Name = "cbStation";
-            foreach(string strr in dm.stationStringList)
+            foreach (string strr in dm.stationStringList)
             {
                 string strr2 = strr;
                 cbStation.Items.Add(strr2);
@@ -244,7 +242,7 @@ namespace Monkeys_Timetable
             lbTime3 = new Label();
             lbTime3.Text = "12:00-15:00";
             lbTime3.Size = new Size(80, 20);
-            lbTime3.Location = new Point(50 + 150 * 2 + 10 , 80);
+            lbTime3.Location = new Point(50 + 150 * 2 + 10, 80);
             splitContainer2.Panel2.Controls.Add(lbTime3);
             tbTime3 = new TextBox();
             tbTime3.Name = "tbTime3";
@@ -282,7 +280,7 @@ namespace Monkeys_Timetable
             tbTime6 = new TextBox();
             tbTime6.Name = "tbTime6";
             tbTime6.Size = new Size(80, 50);
-            tbTime6.Location = new Point(50 + 150 * 2 + 10 , 190);
+            tbTime6.Location = new Point(50 + 150 * 2 + 10, 190);
             splitContainer2.Panel2.Controls.Add(tbTime6);
 
             btRunStation = new Button();
@@ -300,11 +298,11 @@ namespace Monkeys_Timetable
         private void BtRunStation_Click(object sender, EventArgs e)//Click事件为在左下Panel的控件中显示车站信息
         {
             string str;
-            if (cbStation.SelectedItem == null && cbStation.Text=="")//判断是否有选择车站
+            if (cbStation.SelectedItem == null && cbStation.Text == "")//判断是否有选择车站
             {
                 MessageBox.Show("请先选择车站！");
             }
-            else if(cbStation.SelectedItem != null)//检索到对应的车站名
+            else if (cbStation.SelectedItem != null)//检索到对应的车站名
             {
                 str = cbStation.SelectedItem.ToString();
                 int[] tbnums = serviceCount[str];//选中车站的6个时间段的服务次数
@@ -326,7 +324,7 @@ namespace Monkeys_Timetable
             {
                 int judge = 0;
                 str = cbStation.Text;
-                for(int j = 0; j < dm.stationStringList.Count; j++)
+                for (int j = 0; j < dm.stationStringList.Count; j++)
                 {
                     if (str == dm.stationStringList[j])
                     {
@@ -464,7 +462,7 @@ namespace Monkeys_Timetable
                             depturetime = dm.TrainList[i].staTimeDic[dm.TrainList[i].staList[j]][1];
                             strsta = strsta + dm.TrainList[i].staList[j] + "\t" + arrivetime + "\t" + depturetime + "\n";
                         }
-                        MessageBox.Show(title+strsta);
+                        MessageBox.Show(title + strsta);
                         break;
                     }
                 }
@@ -682,7 +680,7 @@ namespace Monkeys_Timetable
             {
                 MessageBox.Show("请选择到达车站！");
             }
-            else if(Stratsta.SelectedItem == Finalsta.SelectedItem)
+            else if (Stratsta.SelectedItem == Finalsta.SelectedItem)
             {
                 MessageBox.Show("请选择不同的车站！");
             }
@@ -700,7 +698,7 @@ namespace Monkeys_Timetable
                 ODtime.Columns.Add("到达时刻");
                 int count = 0;
 
-                for(int i = 0; i < dm.TrainList.Count; i++)
+                for (int i = 0; i < dm.TrainList.Count; i++)
                 {
                     for (int j = 0; j < dm.TrainList[i].staList.Count; j++)
                     {
@@ -710,13 +708,13 @@ namespace Monkeys_Timetable
                             string depturetime1 = dm.TrainList[i].staTimeDic[dm.TrainList[i].staList[j]][1];
                             if (ass.GetMinute(depturetime1) - ass.GetMinute(arrivetime1) > 0)
                             {
-                                for(int k = 0; k < dm.TrainList[i].staList.Count; k++)
+                                for (int k = 0; k < dm.TrainList[i].staList.Count; k++)
                                 {
                                     if (dm.TrainList[i].staList[k] == Finalsta.SelectedItem.ToString())
                                     {
                                         string arrivetime2 = dm.TrainList[i].staTimeDic[dm.TrainList[i].staList[k]][0];
                                         string depturetime2 = dm.TrainList[i].staTimeDic[dm.TrainList[i].staList[k]][1];
-                                        if(ass.GetMinute(depturetime2) - ass.GetMinute(arrivetime2) != 0 && ass.GetMinute(arrivetime2) - ass.GetMinute(depturetime1) > 0)
+                                        if (ass.GetMinute(depturetime2) - ass.GetMinute(arrivetime2) != 0 && ass.GetMinute(arrivetime2) - ass.GetMinute(depturetime1) > 0)
                                         {
                                             string trainnum = dm.TrainList[i].TrainNo;
                                             ODtime.Rows.Add(trainnum, dm.TrainList[i].staList[j], depturetime1, dm.TrainList[i].staList[k], arrivetime2);
@@ -729,7 +727,7 @@ namespace Monkeys_Timetable
                         }
                     }
                 }
-                if(count != 0)
+                if (count != 0)
                 {
                     servetrain.DataSource = ODtime;
                     serveclear = 1;
