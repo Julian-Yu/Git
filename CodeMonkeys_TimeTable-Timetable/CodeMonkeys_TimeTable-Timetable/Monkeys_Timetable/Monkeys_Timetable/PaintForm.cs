@@ -276,6 +276,7 @@ namespace Monkeys_Timetable
             if (YesOrNo)
             {
                 ConflictShow();
+                Refresh();
             }
         }//上行运行图的绘制
 
@@ -285,6 +286,7 @@ namespace Monkeys_Timetable
             if (YesOrNo)
             {
                 ConflictShow();
+                Refresh();
             }
         }//下行运行图的绘制
         private void 开行方案数据ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -312,13 +314,11 @@ namespace Monkeys_Timetable
         {
             if (YesOrNo == false)
             {
-                YesOrNo = true;
-                ConflictShow();
+                checkBox4.Checked = true;
             }
             else
             {
-                YesOrNo = false;
-
+                checkBox4.Checked = false;
             }           
         }
         /// <summary>
@@ -328,7 +328,7 @@ namespace Monkeys_Timetable
         {
             pictureBox2.Size = new Size(TD_Width, TD_Height);
             Graphics gs = Graphics.FromImage(bmp);
-            if (checkBox1.Checked)
+            if (checkBox1.Checked && checkBox2.Checked)
             {
                 Refresh();
                 int k = pt.border2.Count;
@@ -337,9 +337,10 @@ namespace Monkeys_Timetable
                     int ii = i + 1;
                     double total1 = pt.Mile1[ii].Last();
                     pt.ConflictDrawUp(gs, ConflictTable, dm.TrainDic, dm.stationStringList);
+                    pt.ConflictDrawDown(gs, ConflictTable, dm.TrainDic, dm.stationStringList);
                 }
             }
-            if (checkBox2.Checked)
+            else if (!checkBox1.Checked && checkBox2.Checked)
             {
                 Refresh();
                 int k = pt.border2.Count;
@@ -350,6 +351,18 @@ namespace Monkeys_Timetable
                     pt.ConflictDrawDown(gs, ConflictTable, dm.TrainDic, dm.stationStringList);
                 }
             }
+            else if (checkBox1.Checked && !checkBox2.Checked)
+            {
+                Refresh();
+                int k = pt.border2.Count;
+                for (int i = 0; i < k; i++)
+                {
+                    int ii = i + 1;
+                    double total1 = pt.Mile1[ii].Last();
+                    pt.ConflictDrawUp(gs, ConflictTable, dm.TrainDic, dm.stationStringList);
+                }
+            }
+           
             this.pictureBox2.BackgroundImage = bmp;
         }
         private void 计算ToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -768,6 +781,11 @@ namespace Monkeys_Timetable
             dataGridView2.Visible = false;
             dataGridView1.Visible = false;
             DrawPicture();
+            if (YesOrNo)
+            {
+                ConflictShow();
+                Refresh();
+            }
         }
         private void 上行运行图ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -980,10 +998,14 @@ namespace Monkeys_Timetable
             if (checkBox4.Checked == true)
             {
                 YesOrNo = true;
+                DrawPicture();
+                ConflictShow();
+                Refresh();
             }
             else
             {
                 YesOrNo = false;
+                DrawPicture();
             }
         }
     }
