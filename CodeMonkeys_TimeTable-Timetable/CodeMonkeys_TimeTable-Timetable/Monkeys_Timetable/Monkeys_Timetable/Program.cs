@@ -13,7 +13,6 @@ namespace Monkeys_Timetable
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new PaintForm());
             Application.Run(new LoginForm());
         }
     }
